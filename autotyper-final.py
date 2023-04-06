@@ -1,6 +1,4 @@
-import sys
-import keyboard
-import time
+import sys, keyboard, time
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QImage, QPalette, QBrush, QFont
@@ -12,7 +10,7 @@ class Window(QMainWindow):
     # static class variables for code
     canceled = False
     entered_string: str = ''
-    delay: int = 0
+    delay: float = 0
     repeat: int = 0
     listening = False
 
@@ -129,7 +127,7 @@ class Window(QMainWindow):
             Window.delay = 0
             print(f"Updated delay to {Window.delay}")
         else:
-            Window.delay = int(self.delay.text())
+            Window.delay = float(self.delay.text())
             print(f"Updated delay to {Window.delay}")
 
     def enter_string(self):
@@ -178,12 +176,21 @@ class Window(QMainWindow):
     #         time.sleep(delay)
 
     def begin(self):
+        repeat = Window.repeat
+        delay = Window.delay
+        canceled = Window.canceled
+        print(f'gotHere 1 {canceled}')
         self.listening = True
         keyboard.wait('esc')
-        keyboard.write(self.entered_string)
-        for i in range(self.repeat):
-            keyboard.press_and_release('enter')
-            time.sleep(self.delay)
+        print(f'got here 2 {repeat}')
+        for i in range(repeat):
+            print('got here 3')
+            keyboard.write(self.entered_string)
+            keyboard.press_and_release('enter')   #program exits here 
+            time.sleep(delay)
+            print('got here 5')
+            if(canceled):
+                continue
 
 
 app = QApplication(sys.argv)
