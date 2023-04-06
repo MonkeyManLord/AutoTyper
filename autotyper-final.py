@@ -161,20 +161,6 @@ class Window(QMainWindow):
 
 # START OF AUTOTYPER CODE----------------------------------------------------------------
 
-    # def begin(self):
-    #     stop = Window.canceled     #boolean
-    #     delay = Window.delay
-    #     how_many_times = Window.repeat
-    #     string = Window.entered_string
-    #     keyboard_type(string=string, delay=delay, how_many_times=how_many_times, cancel=stop)
-
-    # def keyboard_type(string, delay, how_many_times, cancel):
-    #     keyboard.wait('esc')
-    #     for i in range(how_many_times):
-    #         auto = keyboard.write(string)
-    #         keyboard.press_and_release('enter')
-    #         time.sleep(delay)
-
     def begin(self):
         repeat = Window.repeat
         delay = Window.delay
@@ -186,7 +172,7 @@ class Window(QMainWindow):
         for i in range(repeat):
             print('got here 3')
             keyboard.write(self.entered_string)
-            keyboard.press_and_release('enter')   #program exits here 
+            keyboard.press_and_release('enter')   
             time.sleep(delay)
             print('got here 5')
             if(canceled):
