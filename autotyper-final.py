@@ -3,8 +3,6 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QImage, QPalette, QBrush, QFont
 from PyQt5.QtWidgets import *
-
-
 class Window(QMainWindow):
 
     # static class variables for code
