@@ -6,11 +6,9 @@ from PyQt5.QtWidgets import *
 class Window(QMainWindow):
 
     # static class variables for code
-    canceled = False
     entered_string: str = ''
     delay: float = 0
     repeat: int = 0
-    listening = False
 
     def __init__(self):
         super().__init__()
@@ -61,22 +59,15 @@ class Window(QMainWindow):
         self.repeat.setStyleSheet('border-radius: 10px')
         self.repeat.editingFinished.connect(self.update_repeat)
 
-        self.cancel = QPushButton("Cancel", self)
+        self.cancel = QLabel("] to cancel", self)
         self.cancel.setGeometry(250, 355, 150, 30)
         self.cancel.setStyleSheet("""
-            QPushButton {
-        background-color: darkRed;
-        border-radius: 10px;
-            }
-            QPushButton:hover {
+            QLabel {
         background-color: red;
-        border-radius: 10px;
-            }
-            QPushButton:pressed {
-        background-color: darkGrey;
+        border-radius: 5px;
             }
         """)
-        self.cancel.clicked.connect(self.update_canceled)
+        self.cancel.setAlignment(Qt.AlignCenter)
 # -------
         # Add the label to display the entered string value
         self.entered_string_label = QLabel('', self)
@@ -92,20 +83,18 @@ class Window(QMainWindow):
         self.entered_string_label.setAlignment(Qt.AlignCenter)
 
 # -------
-        self.start = QPushButton(
-            'Click to start' if self.listening else 'Esc to start', self)
+        self.start = QPushButton('Click to start', self)
         self.start.setGeometry(70, 355, 150, 30)
         self.start.setStyleSheet("""
             QPushButton {
         background-color: green;
-        border-radius: 10px;
+        border-radius: 5px;
             }
             QPushButton:hover {
         background-color: lightgreen;
-        border-radius: 10px;
+        border-radius: 5px;
             }
         """)
-        # self.start.setAlignment(Qt.AlignCenter)
         self.start.clicked.connect(self.begin)
 
     def update_canceled(self):
@@ -160,21 +149,18 @@ class Window(QMainWindow):
 # START OF AUTOTYPER CODE----------------------------------------------------------------
 
     def begin(self):
-        repeat = Window.repeat
-        delay = Window.delay
-        canceled = Window.canceled
-        print(f'gotHere 1 {canceled}')
-        self.listening = True
-        keyboard.wait('esc')
-        print(f'got here 2 {repeat}')
+        #delete toBegin label here
+        delay, repeat = float(Window.delay), int(Window.repeat)
+        keyboard.wait('[')
         for i in range(repeat):
-            print('got here 3')
             keyboard.write(self.entered_string)
             keyboard.press_and_release('enter')   
             time.sleep(delay)
-            print('got here 5')
-            if(canceled):
-                continue
+            if(keyboard.is_pressed(']')):
+                print('paused!')
+                return 
+        
+
 
 
 app = QApplication(sys.argv)
